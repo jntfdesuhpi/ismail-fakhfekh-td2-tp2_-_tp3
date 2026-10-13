@@ -27,18 +27,7 @@ export const projectsData: Project[] = [
     description: 'Développement de la nouvelle application web',
     status: 'En attente',
     tasks: [
-      {
-        id: 3,
-        title: 'Créer la page d’accueil',
-        priority: 'Haute',
-        status: 'En attente'
-      },
-      {
-        id: 4,
-        title: 'Configurer la base de données',
-        priority: 'Haute',
-        status: 'En cours'
-      }
+      
     ]
   },
   {

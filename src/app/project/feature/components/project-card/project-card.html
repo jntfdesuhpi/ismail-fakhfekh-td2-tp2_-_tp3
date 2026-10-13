@@ -1,9 +1,33 @@
-<article>
-  <h2>{{ project().name }}</h2>
-  <p>{{ project().description }}</p>
-  <p><strong>Statut :</strong> {{ project().status }}</p>
+<article class="flex h-full flex-col rounded-xl bg-white p-5 shadow-md ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-lg sm:p-6">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <h2 class="text-xl font-semibold text-slate-900">{{ project().name }}</h2>
+    <span
+      class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
+      [class.bg-amber-100]="project().status === 'En attente'"
+      [class.text-amber-800]="project().status === 'En attente'"
+      [class.bg-blue-100]="project().status === 'En cours'"
+      [class.text-blue-800]="project().status === 'En cours'"
+      [class.bg-emerald-100]="project().status === 'Terminé'"
+      [class.text-emerald-800]="project().status === 'Terminé'"
+    >
+      {{ project().status }}
+    </span>
+  </div>
+  <p class="mb-5 text-sm leading-6 text-slate-600">{{ project().description }}</p>
 
-  <app-task-list [tasks]="project().tasks" />
+  <div class="mb-5">
+    @if (project().tasks.length > 0) {
+      <app-task-list [tasks]="project().tasks" />
+    } @else {
+      <p class="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-500">Aucune tâche</p>
+    }
+  </div>
 
-  <button type="button" (click)="selectProject()">Sélectionner</button>
+  <button
+    class="mt-auto self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+    type="button"
+    (click)="selectProject()"
+  >
+    Sélectionner
+  </button>
 </article>
