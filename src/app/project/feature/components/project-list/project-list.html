@@ -1,11 +1,16 @@
 <main>
   <h1>TaskFlow — Projets</h1>
 
-  @for (project of projects; track project.id) {
+  <input
+    type="text"
+    placeholder="Rechercher un projet..."
+    [(ngModel)]="searchTerm"
+  />
+
+  @for (project of filteredProjects; track project.id) {
     <app-project-card
       [project]="project"
-      (projectSelected)="onProjectSelected($event)"   <!-- (projectSelected)="..." listens for the message coming up (output). It uses ( ) because it’s an event, just like (click) -->
-      <!-- $event is whatever the child emitted, here in this exp is the project -->
+      (projectSelected)="onProjectSelected($event)"
     />
   }
 </main>

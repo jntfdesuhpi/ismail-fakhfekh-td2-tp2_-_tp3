@@ -26,6 +26,20 @@ describe('ProjectList', () => {
     expect(fixture.nativeElement.textContent).toContain('Projet 3');
   });
 
+  it('should filter project cards by name as the search term changes', async () => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+    input.value = 'projet 2';
+    input.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const content = fixture.nativeElement.textContent;
+    expect(content).toContain('Projet 2');
+    expect(content).not.toContain('Projet 1');
+    expect(content).not.toContain('Projet 3');
+  });
+
   it('should handle a selected project', () => {
     const log = vi.spyOn(console, 'log');
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
