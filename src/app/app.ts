@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { ProjectList } from './project/feature/components/project-list/project-list';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [ProjectList],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('tp2_TaskFlow');
-}
+export class App {}

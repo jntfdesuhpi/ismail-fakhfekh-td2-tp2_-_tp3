@@ -1,1 +1,5 @@
-<p>task-list works!</p>
+<ul>
+  @for (task of tasks(); track task.id) {
+    <li>{{ task.title }} — Priorité : {{ task.priority }}</li>
+  }
+</ul>
