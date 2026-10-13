@@ -13,11 +13,12 @@
       class="mb-8 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:max-w-md"
       type="text"
       placeholder="Rechercher un projet..."
-      [(ngModel)]="searchTerm"
+      [ngModel]="searchTerm()"
+      (ngModelChange)="searchTerm.set($event)"
     />
 
     <section aria-label="Liste des projets" class="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3">
-      @for (project of filteredProjects; track project.id) {
+      @for (project of filteredProjects(); track project.id) {
         <app-project-card
           [project]="project"
           (projectSelected)="onProjectSelected($event)"
