@@ -24,10 +24,10 @@ describe('ProjectCard', () => {
   it('should display project details and pass its tasks to the task list', () => {
     const content = fixture.nativeElement.textContent;
 
-    expect(content).toContain('Projet 1');
-    expect(content).toContain('Description du projet 1');
+    expect(content).toContain('Refonte du site web');
+    expect(content).toContain('Nouvelle identité visuelle et nouvelle navigation.');
     expect(content).toContain('En cours');
-    expect(content).toContain('Tâche 1');
+    expect(content).toContain('Maquettes de l’accueil');
     expect(content).toContain('Haute');
   });
 

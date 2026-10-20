@@ -1,0 +1,11 @@
+@for (group of projectGroups(); track group.id) {
+  <section class="border-t border-slate-200 pt-4 first:border-t-0 first:pt-0">
+    <div class="mb-3 flex items-center justify-between gap-2">
+      <h3 class="text-sm font-semibold text-slate-800">{{ group.name }}</h3>
+      <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+        {{ group.tasks.length }} {{ group.tasks.length > 1 ? 'tâches' : 'tâche' }}
+      </span>
+    </div>
+    <app-task-list [tasks]="group.tasks" [showAssignee]="false" />
+  </section>
+}

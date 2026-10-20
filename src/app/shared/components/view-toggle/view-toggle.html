@@ -1,0 +1,22 @@
+<div class="inline-flex rounded-lg bg-slate-200 p-1" role="group" aria-label="Mode d'affichage">
+  <button
+    class="rounded-md px-4 py-2 text-sm font-medium transition"
+    [class.bg-white]="selectedView() === 'task'"
+    [class.text-slate-900]="selectedView() === 'task'"
+    [class.text-slate-600]="selectedView() !== 'task'"
+    [attr.aria-pressed]="selectedView() === 'task'"
+    (click)="viewChange.emit('task')"
+  >
+    Par tâche
+  </button>
+  <button
+    class="rounded-md px-4 py-2 text-sm font-medium transition"
+    [class.bg-white]="selectedView() === 'user'"
+    [class.text-slate-900]="selectedView() === 'user'"
+    [class.text-slate-600]="selectedView() !== 'user'"
+    [attr.aria-pressed]="selectedView() === 'user'"
+    (click)="viewChange.emit('user')"
+  >
+    Par utilisateur
+  </button>
+</div>

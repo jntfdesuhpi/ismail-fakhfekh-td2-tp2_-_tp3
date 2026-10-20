@@ -20,6 +20,6 @@ describe('App', () => {
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('TaskFlow');
-    expect(compiled.textContent).toContain('Projet 1');
+    expect(compiled.textContent).toContain('Refonte du site web');
   });
 });

@@ -11,6 +11,11 @@
         <span class="rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium text-slate-700">
           Priorité : {{ task.priority }}
         </span>
+        @if (showAssignee()) {
+          <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+            Assignée à : {{ getUserName(task.assigneeId) }}
+          </span>
+        }
         <span
           class="rounded-full px-2.5 py-1 text-xs font-semibold"
           [class.bg-amber-100]="task.status === 'En attente'"

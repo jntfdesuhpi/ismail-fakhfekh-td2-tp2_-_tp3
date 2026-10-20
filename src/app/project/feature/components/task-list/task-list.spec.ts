@@ -24,9 +24,11 @@ describe('TaskList', () => {
   it('should display each task title and priority', () => {
     const content = fixture.nativeElement.textContent;
 
-    expect(content).toContain('Tâche 1');
+    expect(content).toContain('Maquettes de l’accueil');
     expect(content).toContain('Haute');
-    expect(content).toContain('Tâche 2');
+    expect(content).toContain('Intégration du header');
     expect(content).toContain('Moyenne');
+    expect(content).toContain('Amira Ben Salah');
+    expect(content).toContain('Sarra Trabelsi');
   });
 });
