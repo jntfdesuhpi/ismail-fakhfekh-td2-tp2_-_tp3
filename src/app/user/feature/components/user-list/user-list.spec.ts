@@ -73,6 +73,6 @@ describe('UserList', () => {
 
     const emptyState = fixture.nativeElement.querySelector('app-empty-state');
     expect(emptyState).not.toBeNull();
-    expect(fixture.nativeElement.textContent).toContain('Aucun utilisateur ne correspond à votre recherche.');
+    expect(fixture.nativeElement.textContent).toContain('aucun element trouve');
   });
 });

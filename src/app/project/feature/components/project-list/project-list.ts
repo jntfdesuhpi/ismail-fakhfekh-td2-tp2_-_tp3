@@ -6,8 +6,10 @@ import { ProjectServiceTs } from '../../../../core/services/project.service';
 import { ProjectView, ViewToggle } from '../../../../shared/components/view-toggle/view-toggle';
 import { UserList } from '../../../../user/feature/components/user-list/user-list';
 
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
+
 @Component({
-  imports: [FormsModule, ProjectCard, ViewToggle, UserList],
+  imports: [FormsModule, ProjectCard, ViewToggle, UserList, EmptyState],
   selector: 'app-project-list',
   styleUrl: './project-list.css',
   templateUrl: './project-list.html',

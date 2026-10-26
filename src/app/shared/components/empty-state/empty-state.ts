@@ -6,5 +6,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './empty-state.css',
 })
 export class EmptyState {
-  readonly message = input<string>('Aucun élément trouvé.');
+  readonly message = input<string>('aucun element trouve.');
 }

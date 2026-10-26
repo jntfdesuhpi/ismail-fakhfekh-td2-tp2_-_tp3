@@ -20,7 +20,7 @@
     </span>
   </header>
 
-  <!-- Trois compteurs de tâches (À faire = En attente, En cours, Terminées) -->
+  <!-- stats about the tasks (À faire, En cours, Terminées) -->
   <div class="mb-4 grid grid-cols-3 gap-2 rounded-lg bg-slate-50 p-3 text-center">
     <div class="rounded-md bg-white p-2 shadow-xs">
       <span class="block text-xs font-medium text-slate-500">À faire</span>
@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <!-- Tâches regroupées par projet via UserProjectGroup -->
+  <!-- taches regroupées par projet via UserProjectGroup -->
   <div class="space-y-4">
     @for (group of userProjects(); track group.project.id) {
       <app-user-project-group

@@ -40,6 +40,19 @@ describe('ProjectList', () => {
     expect(content).not.toContain('Migration base de données');
   });
 
+  it('should display EmptyState when no project matches search', async () => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+    input.value = 'InexistantXYZ';
+    input.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const emptyState = fixture.nativeElement.querySelector('app-empty-state');
+    expect(emptyState).not.toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('aucun element trouve');
+  });
+
   it('should handle a selected project', () => {
     const log = vi.spyOn(console, 'log');
     const button: HTMLButtonElement | null =

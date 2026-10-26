@@ -21,7 +21,7 @@ describe('EmptyState', () => {
 
   it('should display default message when none provided', () => {
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Aucun élément trouvé.');
+    expect(fixture.nativeElement.textContent).toContain('aucun element trouve');
   });
 
   it('should display the custom message input', async () => {
