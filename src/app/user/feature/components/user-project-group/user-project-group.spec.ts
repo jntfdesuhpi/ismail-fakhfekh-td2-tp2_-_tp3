@@ -53,30 +53,15 @@ describe('UserProjectGroup', () => {
     expect(content).not.toContain('Assignée à :');
   });
 
-  it('should group projects by userId when projects array and userId are provided', async () => {
-    const multiProjects: Project[] = [
-      mockProject,
-      {
-        id: 2,
-        name: 'Projet Deux',
-        description: 'Autre projet',
-        status: 'En attente',
-        tasks: [
-          { id: 3, title: 'Tâche User 1', priority: 'Basse', status: 'En attente', assigneeId: 1 },
-          { id: 4, title: 'Tâche User 2', priority: 'Haute', status: 'En cours', assigneeId: 2 },
-        ],
-      },
-    ];
-
-    fixture.componentRef.setInput('projects', multiProjects);
-    fixture.componentRef.setInput('userId', 1);
+  it('should display the singular task count for one task', async () => {
+    fixture.componentRef.setInput('project', mockProject);
+    fixture.componentRef.setInput('tasks', mockProject.tasks.slice(0, 1));
     await fixture.whenStable();
     fixture.detectChanges();
 
     const content = fixture.nativeElement.textContent;
     expect(content).toContain('Refonte du site web');
-    expect(content).toContain('Projet Deux');
-    expect(content).toContain('Tâche User 1');
-    expect(content).not.toContain('Tâche User 2');
+    expect(content).toContain('1 tâche');
+    expect(content).toContain('Maquette UI');
   });
 });
