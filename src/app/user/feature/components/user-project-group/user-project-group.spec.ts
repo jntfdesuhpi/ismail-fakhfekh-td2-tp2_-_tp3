@@ -10,10 +10,12 @@ describe('UserProjectGroup', () => {
     id: 1,
     name: 'Refonte du site web',
     description: 'Description test',
+    startDate: '2026-09-01',
+    budget: 12000,
     status: 'En cours',
     tasks: [
-      { id: 1, title: 'Maquette UI', priority: 'Haute', status: 'Terminé', assigneeId: 1 },
-      { id: 2, title: 'Integration CSS', priority: 'Moyenne', status: 'En cours', assigneeId: 1 },
+      { id: 1, title: 'Maquette UI', description: 'Maquette', priority: 'Haute', status: 'Terminé', assigneeId: 1 },
+      { id: 2, title: 'Integration CSS', description: 'Integration', priority: 'Moyenne', status: 'En cours', assigneeId: 1 },
     ],
   };
 

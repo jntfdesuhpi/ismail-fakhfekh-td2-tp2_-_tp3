@@ -1,10 +1,14 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UserService } from '../../../../core/services/user.service';
-import { Task } from '../../models/task';
+import { Task, TaskPriority } from '../../models/task';
+import { DatePipe, KeyValuePipe, SlicePipe } from '@angular/common';
+import { DeadlinePipePipe } from '../../../../shared/pipes/deadline-pipe-pipe';
+import { TruncatePipePipe } from '../../../../shared/pipes/truncate-pipe-pipe';
+import { HighlightDirective } from '../../../../shared/directives/highlight-directive';
 
 @Component({
-  imports: [],
+  imports: [DatePipe, DeadlinePipePipe, HighlightDirective, KeyValuePipe, SlicePipe, TruncatePipePipe],
   selector: 'app-task-list',
   styleUrl: './task-list.css',
   templateUrl: './task-list.html',
@@ -15,6 +19,14 @@ export class TaskList {
 
   private readonly userService = inject(UserService);
   protected readonly users = toSignal(this.userService.getUsers(), { initialValue: [] });
+
+  protected readonly taskCountsByPriority = computed(() => {
+    const counts: Record<TaskPriority, number> = { Basse: 0, Haute: 0, Moyenne: 0 };
+    for (const task of this.tasks()) {
+      counts[task.priority]++;
+    }
+    return counts;
+  });
 
   getUserName(assigneeId?: number): string {
     if (!assigneeId) return 'Non assignée';

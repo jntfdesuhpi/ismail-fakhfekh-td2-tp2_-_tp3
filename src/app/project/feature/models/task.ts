@@ -5,7 +5,9 @@ export type TaskStatus = 'En attente' | 'En cours' | 'Terminé';
 export interface Task {
   id: number;
   title: string;
+  description?: string;
   priority: TaskPriority;
   status: TaskStatus;
   assigneeId?: number;
+  dueDate?: string;
 }

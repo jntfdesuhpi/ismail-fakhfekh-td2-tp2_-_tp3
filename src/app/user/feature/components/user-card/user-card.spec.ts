@@ -28,11 +28,13 @@ describe('UserCard', () => {
       id: 1,
       name: 'Refonte du site web',
       description: 'Test description',
+      startDate: '2026-09-01',
+      budget: 12000,
       status: 'En cours',
       tasks: [
-        { id: 1, title: 'Task 1', priority: 'Haute', status: 'Terminé', assigneeId: 1 },
-        { id: 2, title: 'Task 2', priority: 'Moyenne', status: 'En cours', assigneeId: 1 },
-        { id: 3, title: 'Task 3', priority: 'Basse', status: 'En attente', assigneeId: 1 },
+        { id: 1, title: 'Task 1', description: 'Task one', priority: 'Haute', status: 'Terminé', assigneeId: 1 },
+        { id: 2, title: 'Task 2', description: 'Task two', priority: 'Moyenne', status: 'En cours', assigneeId: 1 },
+        { id: 3, title: 'Task 3', description: 'Task three', priority: 'Basse', status: 'En attente', assigneeId: 1 },
       ],
     },
   ];
@@ -61,6 +63,7 @@ describe('UserCard', () => {
     expect(content).toContain('amira@taskflow.tn');
     expect(content).toContain('Développeur');
     expect(content).toContain('Actif');
+    expect(fixture.nativeElement.querySelector('.rounded-full.bg-blue-100').textContent.trim()).toBe('AB');
   });
 
   it('should display Inactif badge for inactive user', async () => {

@@ -22,13 +22,16 @@ describe('ProjectCard', () => {
   });
 
   it('should display project details and pass its tasks to the task list', () => {
-    const content = fixture.nativeElement.textContent;
+    const content = fixture.nativeElement.textContent.replace(/\s+/g, ' ');
 
-    expect(content).toContain('Refonte du site web');
+    expect(content).toContain('REFONTE DU SITE WEB');
     expect(content).toContain('Nouvelle identité visuelle et nouvelle navigation.');
     expect(content).toContain('En cours');
     expect(content).toContain('Maquettes de l’accueil');
     expect(content).toContain('Haute');
+    expect(content).toContain('12 000,00 TND');
+    expect(content).toContain('40 %');
+    expect(content).toContain('2 400');
   });
 
   it('should emit the project when the select button is clicked', () => {
@@ -39,5 +42,27 @@ describe('ProjectCard', () => {
     button.click();
 
     expect(selectedProjects).toEqual([projectsData[0]]);
+  });
+
+  it('should display the appropriate progress message', async () => {
+    expect(fixture.nativeElement.textContent).toContain('En progression');
+
+    fixture.componentRef.setInput('project', projectsData[3]);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('Aucune tâche pour le moment');
+
+    fixture.componentRef.setInput('project', {
+      ...projectsData[0],
+      tasks: projectsData[0].tasks.map((task) => ({ ...task, status: 'Terminé' as const })),
+    });
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('Projet terminé');
+
+    fixture.componentRef.setInput('project', {
+      ...projectsData[0],
+      tasks: projectsData[0].tasks.map((task) => ({ ...task, status: 'En attente' as const })),
+    });
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('Pas encore démarré');
   });
 });
