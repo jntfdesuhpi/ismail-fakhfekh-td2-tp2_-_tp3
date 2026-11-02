@@ -6,9 +6,20 @@ import { DatePipe, KeyValuePipe, SlicePipe } from '@angular/common';
 import { DeadlinePipePipe } from '../../../../shared/pipes/deadline-pipe-pipe';
 import { TruncatePipePipe } from '../../../../shared/pipes/truncate-pipe-pipe';
 import { HighlightDirective } from '../../../../shared/directives/highlight-directive';
+import { OverdueDirective } from '../../../../shared/directives/overdue-directive';
+import { TooltipDirective } from '../../../../shared/directives/tooltip-directive';
 
 @Component({
-  imports: [DatePipe, DeadlinePipePipe, HighlightDirective, KeyValuePipe, SlicePipe, TruncatePipePipe],
+  imports: [
+    DatePipe,
+    DeadlinePipePipe,
+    HighlightDirective,
+    KeyValuePipe,
+    OverdueDirective,
+    SlicePipe,
+    TooltipDirective,
+    TruncatePipePipe,
+  ],
   selector: 'app-task-list',
   styleUrl: './task-list.css',
   templateUrl: './task-list.html',

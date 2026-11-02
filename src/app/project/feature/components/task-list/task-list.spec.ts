@@ -64,6 +64,23 @@ describe('TaskList', () => {
     expect(description.length).toBeLessThan(projectsData[0].tasks[0].description!.length);
   });
 
+  it('should display the full description in a tooltip on mouseenter and remove it on mouseleave', async () => {
+    const task = projectsData[0].tasks[0];
+    fixture.componentRef.setInput('tasks', [task]);
+    await fixture.whenStable();
+
+    const descElement: HTMLElement = fixture.nativeElement.querySelector('li p:nth-child(2)');
+    expect(descElement.querySelector('span')).toBeNull();
+
+    descElement.dispatchEvent(new Event('mouseenter'));
+    const tooltipSpan = descElement.querySelector('span');
+    expect(tooltipSpan).not.toBeNull();
+    expect(tooltipSpan?.textContent).toBe(task.description);
+
+    descElement.dispatchEvent(new Event('mouseleave'));
+    expect(descElement.querySelector('span')).toBeNull();
+  });
+
   it('should display task counts for every priority', () => {
     const content = fixture.nativeElement.textContent;
 

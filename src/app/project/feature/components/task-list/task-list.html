@@ -13,6 +13,9 @@
   @for (task of tasks() | slice:0:3; track task.id) {
     <li
       appHighlight
+      appOverdue
+      [dueDate]="task.dueDate"
+      [done]="task.status === 'Terminé'"
       class="rounded-r-lg border-l-4 bg-slate-50 px-4 py-3"
       [class.border-l-amber-500]="task.status === 'En attente'"
       [class.border-l-blue-500]="task.status === 'En cours'"
@@ -20,7 +23,10 @@
     >
       <p class="font-medium text-slate-800">{{ task.title }}</p>
       @if (task.description) {
-        <p class="mt-1 text-sm text-slate-600">{{ task.description | truncatePipe:50 }}</p>
+        <p
+          class="relative mt-1 text-sm text-slate-600"
+          [appTooltip]="task.description"
+        >{{ task.description | truncatePipe:50 }}</p>
       }
       <div class="mt-2 flex flex-wrap items-center gap-2">
         <span class="rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium text-slate-700">
