@@ -27,7 +27,9 @@
         @for (project of filteredProjects(); track project.id) {
           <app-project-card
             [project]="project"
+            [users]="users()"
             (projectSelected)="onProjectSelected($event)"
+            (taskStatusChange)="onTaskStatusChange($event)"
           />
         } @empty {
           <div class="md:col-span-2 xl:col-span-3">

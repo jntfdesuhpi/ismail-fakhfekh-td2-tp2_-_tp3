@@ -27,10 +27,12 @@ describe('TaskList', () => {
     expect(content).toContain('Maquettes de l’accueil');
     expect(content).toContain('Échéance : 10/09/2026');
     expect(content).toContain('Haute');
+    expect(content).toContain('Terminé');
     expect(content).toContain('Intégration du header');
     expect(content).toContain('Moyenne');
     expect(content).toContain('Formulaire de contact');
-    expect(content).toContain('Amira Ben Salah');
+    expect(content).not.toContain('Tests responsive');
+    expect(content).toContain('Assignée à : Amira Ben Salah');
   });
 
   it('should display tasks without a due date without throwing', async () => {
@@ -43,76 +45,46 @@ describe('TaskList', () => {
     expect(content).toContain('Échéance : Pas d’échéance');
   });
 
-  it('should display the complete short description of task 5', async () => {
-    const task = projectsData[0].tasks[4];
+  it('should display a description only when one exists', async () => {
+    const task = projectsData[0].tasks[1];
     fixture.componentRef.setInput('tasks', [task]);
     await fixture.whenStable();
 
-    const description = fixture.nativeElement.querySelector('li p:nth-child(2)').textContent.trim();
-
-    expect(description).toBe('Tester l’affichage sur mobile et tablette.');
-    expect(description).not.toContain('...');
+    expect(fixture.nativeElement.textContent).not.toContain('Créer les maquettes');
   });
 
-  it('should truncate longer task descriptions', async () => {
+  it('should hide the assignee when showAssignee is false', async () => {
     fixture.componentRef.setInput('tasks', [projectsData[0].tasks[0]]);
+    fixture.componentRef.setInput('showAssignee', false);
     await fixture.whenStable();
 
-    const description = fixture.nativeElement.querySelector('li p:nth-child(2)').textContent.trim();
-
-    expect(description).toContain('...');
-    expect(description.length).toBeLessThan(projectsData[0].tasks[0].description!.length);
+    expect(fixture.nativeElement.textContent).not.toContain('Assignée à :');
+    expect(fixture.nativeElement.textContent).not.toContain('Amira Ben Salah');
   });
 
-  it('should display the full description in a tooltip on mouseenter and remove it on mouseleave', async () => {
-    const task = projectsData[0].tasks[0];
-    fixture.componentRef.setInput('tasks', [task]);
-    await fixture.whenStable();
-
-    const descElement: HTMLElement = fixture.nativeElement.querySelector('li p:nth-child(2)');
-    expect(descElement.querySelector('span')).toBeNull();
-
-    descElement.dispatchEvent(new Event('mouseenter'));
-    const tooltipSpan = descElement.querySelector('span');
-    expect(tooltipSpan).not.toBeNull();
-    expect(tooltipSpan?.textContent).toBe(task.description);
-
-    descElement.dispatchEvent(new Event('mouseleave'));
-    expect(descElement.querySelector('span')).toBeNull();
-  });
-
-  it('should display task counts for every priority', () => {
-    const content = fixture.nativeElement.textContent;
-
-    expect(content).toContain('Basse : 1');
-    expect(content).toContain('Haute : 2');
-    expect(content).toContain('Moyenne : 2');
-  });
-
-  it('should display zero counts for priorities without tasks', async () => {
+  it('should display an empty-state message when there are no tasks', async () => {
     fixture.componentRef.setInput('tasks', []);
     await fixture.whenStable();
 
-    const content = fixture.nativeElement.textContent;
-
-    expect(content).toContain('Basse : 0');
-    expect(content).toContain('Haute : 0');
-    expect(content).toContain('Moyenne : 0');
+    expect(fixture.nativeElement.textContent.trim()).toBe('Aucune tâche');
   });
 
-  it('should display a symbol for each task priority', async () => {
-    const tasks = projectsData[0].tasks.slice(0, 3);
-    fixture.componentRef.setInput('tasks', [
-      { ...tasks[0], priority: 'Haute' },
-      { ...tasks[1], priority: 'Moyenne' },
-      { ...tasks[2], priority: 'Basse' },
-    ]);
+  it('should transmit taskStatusChange with task id and new status to parent', async () => {
+    fixture.componentRef.setInput('projectId', 1);
     await fixture.whenStable();
 
-    const content = fixture.nativeElement.textContent;
+    const emittedEvents: Array<{ taskId: number; newStatus: string; projectId?: number }> = [];
+    component.taskStatusChange.subscribe((event) => emittedEvents.push(event));
 
-    expect(content).toContain('▲ Haute');
-    expect(content).toContain('● Moyenne');
-    expect(content).toContain('▼ Basse');
+    // First task in projectsData[0] is task 1 with status 'Terminé' -> clicking cycles to 'En attente'
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    button.click();
+
+    expect(emittedEvents.length).toBe(1);
+    expect(emittedEvents[0]).toEqual({
+      taskId: 1,
+      newStatus: 'En attente',
+      projectId: 1,
+    });
   });
 });

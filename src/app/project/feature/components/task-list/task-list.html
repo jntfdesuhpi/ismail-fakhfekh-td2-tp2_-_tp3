@@ -1,68 +1,14 @@
-<section class="mb-4" aria-label="Nombre de tâches par priorité">
-  <h3 class="mb-2 font-semibold text-slate-800">Tâches par priorité</h3>
-  <ul class="flex flex-wrap gap-2">
-    @for (item of taskCountsByPriority() | keyvalue; track item.key) {
-      <li class="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
-        {{ item.key }} : {{ item.value }}
-      </li>
-    }
-  </ul>
-</section>
-
 <ul class="space-y-3">
   @for (task of tasks() | slice:0:3; track task.id) {
-    <li
-      appHighlight
-      appOverdue
-      [dueDate]="task.dueDate"
-      [done]="task.status === 'Terminé'"
-      class="rounded-r-lg border-l-4 bg-slate-50 px-4 py-3"
-      [class.border-l-amber-500]="task.status === 'En attente'"
-      [class.border-l-blue-500]="task.status === 'En cours'"
-      [class.border-l-emerald-500]="task.status === 'Terminé'"
-    >
-      <p class="font-medium text-slate-800">{{ task.title }}</p>
-      @if (task.description) {
-        <p
-          class="relative mt-1 text-sm text-slate-600"
-          [appTooltip]="task.description"
-        >{{ task.description | truncatePipe:50 }}</p>
-      }
-      <div class="mt-2 flex flex-wrap items-center gap-2">
-        <span class="rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium text-slate-700">
-          Priorité :
-          @switch (task.priority) {
-            @case ('Haute') { ▲ Haute }
-            @case ('Moyenne') { ● Moyenne }
-            @default { ▼ Basse }
-          }
-        </span>
-        @if (task.dueDate) {
-          <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
-            Échéance : {{ task.dueDate | date:'dd/MM/yyyy' }} · {{ task.dueDate | deadlinePipe }}
-          </span>
-        } @else {
-          <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
-            Échéance : {{ task.dueDate | deadlinePipe }}
-          </span>
-        }
-        @if (showAssignee()) {
-          <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
-            Assignée à : {{ getUserName(task.assigneeId) }}
-          </span>
-        }
-        <span
-          class="rounded-full px-2.5 py-1 text-xs font-semibold"
-          [class.bg-amber-100]="task.status === 'En attente'"
-          [class.text-amber-800]="task.status === 'En attente'"
-          [class.bg-blue-100]="task.status === 'En cours'"
-          [class.text-blue-800]="task.status === 'En cours'"
-          [class.bg-emerald-100]="task.status === 'Terminé'"
-          [class.text-emerald-800]="task.status === 'Terminé'"
-        >
-          {{ task.status }}
-        </span>
-      </div>
+    <li>
+      <app-task-item
+        [task]="task"
+        [showAssignee]="showAssignee()"
+        [users]="users()"
+        (taskStatusChange)="onTaskStatusChange(task.id, $event)"
+      />
     </li>
+  } @empty {
+    <li class="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-500">Aucune tâche</li>
   }
 </ul>

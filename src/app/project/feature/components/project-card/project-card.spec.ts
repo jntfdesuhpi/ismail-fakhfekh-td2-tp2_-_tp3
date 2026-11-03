@@ -65,4 +65,24 @@ describe('ProjectCard', () => {
     await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain('Pas encore démarré');
   });
+
+  it('should compute and display the completed tasks count', () => {
+    expect(component.completedTasksCount()).toBe(2);
+    expect(fixture.nativeElement.textContent).toContain('2 / 5');
+  });
+
+  it('should forward taskStatusChange with projectId, taskId, and newStatus to parent', () => {
+    const emittedEvents: unknown[] = [];
+    component.taskStatusChange.subscribe((event) => emittedEvents.push(event));
+
+    component.onTaskStatusChange({ taskId: 3, newStatus: 'Terminé' });
+
+    expect(emittedEvents).toEqual([
+      {
+        projectId: projectsData[0].id,
+        taskId: 3,
+        newStatus: 'Terminé',
+      },
+    ]);
+  });
 });

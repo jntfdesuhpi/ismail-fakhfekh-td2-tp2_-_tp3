@@ -75,4 +75,28 @@ describe('ProjectList', () => {
     expect(fixture.nativeElement.textContent).toContain('Amira Ben Salah');
     expect(fixture.nativeElement.textContent).toContain('Maquettes de l’accueil');
   });
+
+  it('should immutably update the project and task status on taskStatusChange', () => {
+    const initialProjects = (component as unknown as { projects: () => typeof projectsData }).projects();
+    const initialProject1 = initialProjects.find((p) => p.id === 1);
+    const initialTask3 = initialProject1?.tasks.find((t) => t.id === 3);
+
+    expect(initialTask3?.status).toBe('En cours');
+
+    component.onTaskStatusChange({ projectId: 1, taskId: 3, newStatus: 'Terminé' });
+
+    const updatedProjects = (component as unknown as { projects: () => typeof projectsData }).projects();
+    const updatedProject1 = updatedProjects.find((p) => p.id === 1);
+    const updatedTask3 = updatedProject1?.tasks.find((t) => t.id === 3);
+
+    expect(updatedTask3?.status).toBe('Terminé');
+    // Immutability checks: new references created
+    expect(updatedProjects).not.toBe(initialProjects);
+    expect(updatedProject1).not.toBe(initialProject1);
+    expect(updatedTask3).not.toBe(initialTask3);
+    // Unchanged project reference is preserved
+    const initialProject2 = initialProjects.find((p) => p.id === 2);
+    const updatedProject2 = updatedProjects.find((p) => p.id === 2);
+    expect(updatedProject2).toBe(initialProject2);
+  });
 });

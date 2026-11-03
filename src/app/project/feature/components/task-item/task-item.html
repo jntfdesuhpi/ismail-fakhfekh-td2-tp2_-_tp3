@@ -1,0 +1,74 @@
+<article
+  appHighlight
+  appOverdue
+  [dueDate]="task().dueDate"
+  [done]="task().status === 'Terminé'"
+  class="rounded-r-lg border-l-4 bg-slate-50 px-4 py-3"
+  [ngClass]="{
+    'border-l-amber-500': task().status === 'En attente',
+    'border-l-blue-500': task().status === 'En cours',
+    'border-l-emerald-500': task().status === 'Terminé'
+  }"
+>
+  <p class="font-medium text-slate-800">{{ task().title }}</p>
+  @if (task().description; as description) {
+    <p
+      class="relative mt-1 text-sm text-slate-600"
+      [appTooltip]="description"
+    >{{ description | truncatePipe:50 }}</p>
+  }
+  <div class="mt-2 flex flex-wrap items-center gap-2">
+    <span
+      class="rounded-full px-2.5 py-1 text-xs font-medium"
+      [ngClass]="{
+        'bg-red-100 text-red-800': task().priority === 'Haute',
+        'bg-amber-100 text-amber-800': task().priority === 'Moyenne',
+        'bg-slate-200 text-slate-700': task().priority === 'Basse'
+      }"
+    >
+      Priorité :
+      @switch (task().priority) {
+        @case ('Haute') { ▲ Haute }
+        @case ('Moyenne') { ● Moyenne }
+        @default { ▼ Basse }
+      }
+    </span>
+    <span
+      class="rounded-full px-2.5 py-1 text-xs font-semibold"
+      [ngClass]="{
+        'bg-amber-100 text-amber-800': task().status === 'En attente',
+        'bg-blue-100 text-blue-800': task().status === 'En cours',
+        'bg-emerald-100 text-emerald-800': task().status === 'Terminé'
+      }"
+    >
+      {{ task().status }}
+    </span>
+    <span
+      class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600"
+      [ngStyle]="{
+        'border-left': task().dueDate ? '3px solid #3b82f6' : '3px solid #94a3b8'
+      }"
+    >
+      Échéance : {{ task().dueDate ? (task().dueDate | date:'dd/MM/yyyy') : 'Pas d’échéance' }}
+      @if (task().dueDate) {
+        <span class="text-xs text-slate-500">({{ task().dueDate | deadlinePipe }})</span>
+      }
+    </span>
+    @if (showAssignee()) {
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+        <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-300 text-[10px] font-semibold text-slate-700">
+          {{ getUserName(task().assigneeId) | initialsPipe }}
+        </span>
+        Assignée à : {{ getUserName(task().assigneeId) }}
+      </span>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="mt-3 rounded bg-blue-500 px-3 py-1 text-sm font-medium text-white hover:bg-blue-600"
+    (click)="changeTaskStatus()"
+  >
+    Changer status
+  </button>
+</article>

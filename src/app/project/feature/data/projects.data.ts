@@ -15,7 +15,7 @@ export const projectsData: Project[] = [
         description: 'Créer les maquettes haute fidélité de la page d’accueil pour validation par le client avant l’intégration.',
         priority: 'Haute',
         status: 'Terminé',
-        assigneeId: 1,
+        assigneeId: 2,
         dueDate: '2026-09-10',
       },
       {
@@ -32,7 +32,7 @@ export const projectsData: Project[] = [
         description: 'Développer le formulaire de contact avec validation des champs et envoi de la demande vers l’équipe support.',
         priority: 'Moyenne',
         status: 'En cours',
-        assigneeId: 1,
+        assigneeId: 3,
         dueDate: '2026-10-02',
       },
       {
